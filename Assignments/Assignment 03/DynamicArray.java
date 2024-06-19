@@ -97,6 +97,31 @@ public class DynamicArray implements BasicTools {
         }
         return canBeAdded;
     } // method addUnique
+     /**
+     * Determines if this DynamicArray intersects the specified DynamicArray (other).
+     * 
+     * @param other DynamicArray to determine if it intersects with this object
+     * @return true if two DynamicArrays have a common entry; false otherwise.
+     */
+    @Override
+    public boolean intersects(DynamicArray other) {
+        return intersectsRecursive(this.position, other);
+    }
 
-    
+    /**
+     * Helper method to determine if this DynamicArray intersects with the specified DynamicArray using recursion.
+     * 
+     * @param index Current index in this DynamicArray to check
+     * @param other The other DynamicArray to compare against
+     * @return true if a common entry is found, false otherwise
+     */
+    private boolean intersectsRecursive(int index, DynamicArray other) {
+        if (index == 0) {
+            return false;
+        }
+        if (other.contains(this.data[index - 1])) {
+            return true;
+        }
+        return intersectsRecursive(index - 1, other);
+    }//method intersectsRecursive
 } // class DynamicArray
