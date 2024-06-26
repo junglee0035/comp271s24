@@ -44,4 +44,58 @@ public class TrainLine {
             currentStation.setNext(newStation);
         }
     } // method addStation
+    
+    public int getNumberOfStations() {
+        return this.numberOfStations++;
+    }
+    
+    public boolean contains(String stationName) {
+        // Initializes flag to track if station is found
+        boolean found = false;
+
+        // Starts with the head station
+        Station current = this.head;
+
+        // Iterate through the stations until the station is found or there are no more stations
+        while (current != null && !found) { 
+            // Check if the current station's name matches the given station name
+            found = current.getName().equals(stationName); 
+            // Move to the next station
+            current = current.getNext(); 
+        } 
+
+        return found;;
+    }
+    //followed along during class on 6/26
+    //public boolean addAfter(String existing, String stationToAdd) {
+        // Initializes success flag to track if the new station was added
+        //boolean success = false;
+        
+        // Checks if the station to be added already exists in the TrainLine
+        //if (!this.contains(stationToAdd)) {
+            // Create the new station object with the specified name
+            //Station newStation = new Station(stationToAdd);
+            
+            // Initializes flag to track if the existing station is found
+            //boolean existingPresent = false;
+            
+            // Start with head station
+            //Station current = this.head;
+            
+            // Iterate through the stations to find the existing station
+            //while (!existingPresent && current != null) {
+                // Check if the current station's name matches the existing station's name
+                //existingPresent = current.getName().equals(existing);
+                
+                // If the existing station is found, inserts the new station after it
+                //if (existingPresent) {
+                    //newStation.setNext(current.getNext());
+                    //current.setNext(newStation);
+                    //success = true; // Set the success flag to true
+                //} else {
+                    // Move to the next station
+                    //current = current.getNext();
+                //}
+            //}
 }
+
