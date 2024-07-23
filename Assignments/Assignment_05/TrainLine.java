@@ -63,21 +63,55 @@ public class TrainLine {
     } // method getNumberOfStations
 
     /**
+     * Determines the index of a station with a specific name in this TrainLine.
+     * 
+     * @param name String with station name to search for
+     * @return index of station if found; -1 otherwise or if object has no stations.
+     */
+    public int indexOf(String name) {
+        int index = -1;
+        int currentIndex = 0;
+        Station current = this.head;
+
+        // Traverse the list to find the station
+        while (current != null && index == -1) {
+            if (current.getName().equals(name)) {
+                index = currentIndex;
+            }
+            current = current.getNext();
+            currentIndex++;
+        }
+        return index;
+    } // method indexOf
+    
+    /**
      * Determines if a station with a specific name is present in this TrainLine
      * 
      * @param stationName String with station name to search for
      * @return true if station found; false otherwise or if object has no stations.
      */
     public boolean contains(String stationName) {
-        boolean found = false;
-        Station current = this.head;
-        while (!found && current != null) {
-            found = current.getName().equals(name);
-            current = current.getNext();
-        }
-        return found;
+        return this.indexOf(stationName) != -1;
     } // method contains
 
+     /**
+     * Appends another TrainLine to the end of this TrainLine.
+     * 
+     * @param other TrainLine object to append
+     */
+    public void append(TrainLine other) {
+        if (other.head != null) {
+            if (this.head == null) {
+                this.head = other.head;
+                this.tail = other.tail;
+            } else {
+                this.tail.setNext(other.head);
+                this.tail = other.tail;
+            }
+            this.numberOfStations += other.numberOfStations;
+        }
+    } // method append
+    
     /**
      * Inserts a new station after an existing one.
      * 
@@ -137,9 +171,4 @@ public class TrainLine {
         }
         return sb.toString();
     } // method toString
-
-    /** STUB FOR indexOf */
-    public int indexOf(String name) {
-        return -1;
-    } // method indexOf
 }
