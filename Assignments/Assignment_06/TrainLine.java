@@ -50,7 +50,7 @@ public class TrainLine {
      * head station, the method places the new station after the last station
      * in the line and marks that new station the last station in the line.
      * 
-     * @param station Station object to insert at teh end of the line
+     * @param station Station object to insert at the end of the line
      */
     public void addStation(Station station) {
         // Check if this trainline has a head station yet or not
@@ -64,6 +64,7 @@ public class TrainLine {
             // The trainline has an existing head station. Therefore,
             // it also has a known last station (this.tail).
             this.tail.setNext(station); // add new station after tail station
+            station.setPrev(this.tail); // set prev pointer of new station
             this.tail = station; // Designate newly added station as tail station
         }
         // Update station counter
@@ -128,8 +129,15 @@ public class TrainLine {
                     // Make the existing station point to the new station
                     current.setNext(newStation);
                     // Update the return variable to indicate a successful insertion
+                    newStation.setPrev(current);
+                    // Update the next station's previous pointer if it exists
+                    if (newStation.getNext() != null) {
+                        newStation.getNext().setPrev(newStation);
+                    }
+                    // Update the return variable to indicate a successful insertion
                     success = true;
                 }
+                current = current.getNext();
             }
         }
         return success;
@@ -209,11 +217,16 @@ public class TrainLine {
             if (this.head == null) {
                 // If this trainline is empty, we use the other trainline's head and tail
                 this.head = other.getHead();
+                this.tail = other.getTail();
             } else {
                 // otherwise, we point this.tail to other.head ae 
                 this.tail.setNext(other.getHead());
             }
             // Either way it's the same tail
+            // Linking the current tail with the new train line's head in both directions
+            this.tail.setNext(other.getHead());
+            // New line to set the previous pointer
+            other.getHead().setPrev(this.tail);
             this.tail = other.getTail();
         }
     } // method append
