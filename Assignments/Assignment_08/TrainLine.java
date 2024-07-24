@@ -218,4 +218,65 @@ public class TrainLine {
         }
     } // method append
 
+    /**
+     * Lists all stations in the order in which the trainline is traversed
+     * 
+     * @return String with names of stations, each on a new line.
+     */
+    public String listStations() {
+        // Initialize result string
+        String result = "";
+        // Initialize empty line message
+        String emptyLineMessage = "The line is empty.";
+        // Traverse the TrainLine, starting from head
+        Station current = this.head;
+        // If the trainline is empty, set result to the empty line message
+        if (current == null) {
+            result = emptyLineMessage;
+        } else {
+            // Traverse through all stations and accumulate their names
+            while (current != null) {
+                result += current.getName() + "\n";
+                current = current.getNext();
+            }
+        }
+        return result;
+    } // method listStations
+
+    /**
+     * Method to determine if this train line intersects with another train line.
+     * 
+     * @param other TrainLine to check for intersection with.
+     * @return true if the two lines intersect at any station, false otherwise.
+     */
+    public boolean intersects(TrainLine other) {
+        // Initialize result as false
+        boolean result = false;
+        // Traverse this TrainLine and check each station against the other TrainLine
+        Station current = this.head;
+        while (current != null) {
+            // Update result if intersection is found
+            result = other.contains(current.getName());
+            // Exit loop if intersection is found
+            if (result) {
+                current = null;
+            } else {
+                // Continue traversing
+                current = current.getNext();
+            }
+        }
+        return result;
+    } // method intersects
+    
+    /**
+     * Method to compare two train lines. A train line is considered larger
+     * if it has more stations. This method follows the Comparable interface.
+     * 
+     * @param other TrainLine to compare with.
+     * @return negative value if this TrainLine is smaller, zero if equal,
+     *         positive value if larger.
+     */
+    public int compareTo(TrainLine other) {
+        return this.numberOfStations - other.getNumberOfStations();
+    } // method compareTo
 } // class TrainLine
