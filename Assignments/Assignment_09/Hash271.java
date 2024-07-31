@@ -5,15 +5,25 @@ public class Hash271 {
 
     /** Foundation array of node objects */
     Node[] foundation;
+     //Track the current number of nodes in the hash table
+    private int nodeCount;
+    //Threshold for resizing the hash table
+    private double loadFactorThreshold;
+    
 
     /** Basic constructor */
-    public Hash271(int size) {
+    public Hash271(int size, double loadFactorThreshold) {
         this.foundation = new Node[size];
+        //Initialize node count to 0
+        this.nodeCount = 0; 
+        //Set the load factor threshold
+        this.loadFactorThreshold = loadFactorThreshold; 
     } // basic constructor
 
     /** Default constructor */
     public Hash271() {
-        this(DEFAULT_SIZE);
+        //Use default size and load factor threshold
+        this(DEFAULT_SIZE, DEFAULT_LOAD_FACTOR_THRESHOLD); 
     } // default constructor
 
     /**
@@ -36,6 +46,11 @@ public class Hash271 {
     public void put(Node node) {
         // Operate only is node is not null
         if (node != null) {
+            // Check if rehashing is needed based on the current load factor
+            if (getLoadFactor() > loadFactorThreshold) {
+                //Rehash the foundation array if load factor exceeds threshold
+                rehash();
+            }
             // Use the node's hashcode to determine is position in
             // the underlying array
             int destination = computeArrayPosition(node.hashCode());
@@ -46,6 +61,7 @@ public class Hash271 {
             }
             // Put the new node to the array position
             this.foundation[destination] = node;
+            nodeCount++; //Increment node count
         }
     } // method put
 
@@ -62,6 +78,28 @@ public class Hash271 {
             this.put(node);
         }
     } // method put
+
+    /**
+     * Resize and rehash the foundation array when the load factor exceeds the threshold
+     */
+    private void rehash() {
+        //Save the current foundation array
+        Node[] oldFoundation = this.foundation;
+        //Create a new foundation array with double the size
+        this.foundation = new Node[oldFoundation.length * 2];
+        //Reset node count
+        nodeCount = 0;
+        // Iterate through each node in the old foundation array
+        for (Node node : oldFoundation) {
+            while (node != null) {
+                Node next = node.getNext();
+                node.setNext(null);
+                // Reinsert node into the new foundation array
+                this.put(node);
+                node = next;
+            }
+        }
+    }
 
     /** String representation of this object */
     public String toString() {
