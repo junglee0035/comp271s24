@@ -272,4 +272,27 @@ public class TrainLine {
         return this.numberOfStations - other.getNumberOfStations();
     } // method compareTo
 
+     /**
+     * Reverses the list of stations and returns their names in reverse order.
+     *
+     * @return String with the names of the stations in reverse order, each on a new line.
+     */
+    public String reverseListStations() {
+        StringBuilder reversedStations = new StringBuilder();
+        if (this.head == null) {
+            reversedStations.append(EMPTY_LINE_MESSAGE);
+        } else {
+            Stack<String> stack = new Stack<>();
+            Station current = this.head;
+            while (current != null) {
+                stack.push(current.getName());
+                current = current.getNext();
+            }
+            while (!stack.isEmpty()) {
+                reversedStations.append(stack.pop()).append("\n");
+            }
+        }
+        return reversedStations.toString();
+    } // method reverseListStations
+    
 } // class TrainLine

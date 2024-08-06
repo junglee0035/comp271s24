@@ -45,8 +45,8 @@ public class Sorting271 {
             mergedIndex++;
         }
 
-        return mergedArray; // Return the merged sorted array
-    }
+        return mergedArray; 
+    } //method merge
 
     /**
      * Sorts an array using the iterative merge sort algorithm.
@@ -85,8 +85,8 @@ public class Sorting271 {
             }
         }
 
-        return array; // Return the sorted array
-    }
+        return array;
+    } // method sort
 
     /**
      * The main method to test the merge and sort methods.
@@ -108,5 +108,6 @@ public class Sorting271 {
         // Test sort method
         int[] sortedArray = sorter.sort(arrayToSort);
         System.out.println("Sorted array: " + java.util.Arrays.toString(sortedArray));
-    }//main method
-}
+    } // method main
+
+} //class Sorting271
